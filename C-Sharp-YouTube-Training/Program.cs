@@ -45,15 +45,16 @@ namespace Answer_Question_GAME
             string firstName = Console.ReadLine();
             int points = 0;
             int life = 3;
-            var availableCategory = new string[4]
+            var availableCategory = new string[6]
             {
-                "Technology [T]", "Nature [N]", "Biology [B]", "Medicine [M]"
+                "Technology [T]", "Nature [N]", "Biology [B]", "Medicine [M]  (Currently not available)", "", "End Game [Q]"
             };
             Console.Clear();
             Console.WriteLine(string.Format("Welcome {0}, you have {1} points and {2} lives", firstName, points, life));
             Console.WriteLine("");
             Console.WriteLine("Please select your category");
             Console.WriteLine("Type in the letter for example N for Nature");
+            Console.WriteLine("");
 
             for (int i = 0; i < availableCategory.Length; i++)
             {
@@ -67,6 +68,11 @@ namespace Answer_Question_GAME
 
             switch (category.ToLower())
             {
+
+                case "b":
+                    biologyQuestion(firstName, availableCategory, points, life);
+                    break;
+
                 case "t":
                     Console.WriteLine("technology");
                     technologyQuestion(firstName, availableCategory, points, life);
@@ -75,6 +81,10 @@ namespace Answer_Question_GAME
                 case "m":
                     Console.Write("Math");
                     //mathQuestion(firstName, points, life);
+                    break;
+
+                case "n":
+                    natureQuestion(firstName, availableCategory, points, life);
                     break;
 
                 case "q":
@@ -108,7 +118,7 @@ namespace Answer_Question_GAME
                 Console.WriteLine(techQuestion[0, questionCount]);
                 Console.Write("> ");
                 answer = Console.ReadLine();
-                if (answer == techQuestion[1, questionCount])
+                if (answer.ToLower() == techQuestion[1, questionCount].ToLower())
                 {
                     points++;
                     Console.WriteLine("You answered correctly and now have " + points + " points");
@@ -128,6 +138,83 @@ namespace Answer_Question_GAME
 
         } // End of the method technologyQuestion
 
+        // Start of natureQuestion
+        static void natureQuestion(string firstname, string[] availableCategory, int points, int life)
+        {
+            Console.Clear();
+            Console.WriteLine("Nature questions");
+            string answer;
+            int questionCount = 0;
+            var natureQuestion = new string[2, 3]
+            {
+                {"What is the white substance contained in the fibre cells?", "How much biospehere extends to the distance?", "What are the groups of sporangia borne on the fern leaves called?"},
+                {"Cellulose", "22.5km", "Sori"}
+            };
+            int questions = 0;
+
+            while (questions < 3)
+            {
+                Console.WriteLine(natureQuestion[0, questionCount]);
+                Console.Write("> ");
+                answer = Console.ReadLine();
+                if (answer.ToLower() == natureQuestion[1, questionCount].ToLower())
+                {
+                    points++;
+                    Console.WriteLine("You answered correctly and now have " + points + " points");
+                    questions++;
+                    questionCount++;
+                }
+                else
+                {
+                    questions++;
+                    questionCount++;
+                    Console.WriteLine("Wrong answer, You now have " + points + " and " + life + " lives left");
+                    life--;
+                }
+            }
+            availableCategory[1] = "---";
+            ChoseCategory(firstname, availableCategory, points, life);
+
+        } // End of the method natureQuestion
+
+        // Start of biologyQuestion
+        static void biologyQuestion(string firstname, string[] availableCategory, int points, int life)
+        {
+            Console.Clear();
+            Console.WriteLine("Nature questions");
+            string answer;
+            int questionCount = 0;
+            var biologyQuestion = new string[2, 3]
+            {
+                {"In which modern-day country was the physicist and chemist Marie Curie born?", "How many wings does a mosquito have?", "Which is the largest internal organ in the human body?"},
+                {"Poland", "Two", "liver"}
+            };
+            int questions = 0;
+
+            while (questions < 3)
+            {
+                Console.WriteLine(biologyQuestion[0, questionCount]);
+                Console.Write("> ");
+                answer = Console.ReadLine();
+                if (answer.ToLower() == biologyQuestion[1, questionCount].ToLower())
+                {
+                    points++;
+                    Console.WriteLine("You answered correctly and now have " + points + " points");
+                    questions++;
+                    questionCount++;
+                }
+                else
+                {
+                    questions++;
+                    questionCount++;
+                    Console.WriteLine("Wrong answer, You now have " + points + " and " + life + " lives left");
+                    life--;
+                }
+            }
+            availableCategory[2] = "---";
+            ChoseCategory(firstname, availableCategory, points, life);
+
+        } // End of the method biologyQuestion
 
         // Start of method ChoseCategory
         static void ChoseCategory(string firstname, string[] availableCategory, int points, int life)
@@ -139,6 +226,8 @@ namespace Answer_Question_GAME
                 Console.WriteLine("");
                 Console.WriteLine("Please select your category");
                 Console.WriteLine("Type in the letter for example N for Nature");
+                Console.Write("");
+
                 for (int i = 0; i < availableCategory.Length; i++)
                 {
                     Console.WriteLine(availableCategory[i]);
@@ -147,10 +236,23 @@ namespace Answer_Question_GAME
                 Console.Write("> ");
                 string category = Console.ReadLine();
 
-                // the switch statement below is for selection of the question categories
+                // the switch statement below is for selection of the question categorie and checks if the user already done a specifik category
 
                 switch (category.ToLower())
                 {
+                    case "b":
+                        if (availableCategory[2] != "---")
+                        {
+                            Console.WriteLine("You have selected biology questions");
+                            biologyQuestion(firstname, availableCategory, points, life);
+                            break;
+                        }
+                        else
+                        {
+                            ChoseCategory(firstname, availableCategory, points, life);
+                            break;
+                        }
+
                     case "t":
                         if (availableCategory[0] != "---")
                         {
@@ -168,6 +270,19 @@ namespace Answer_Question_GAME
                     case "m":
                         Console.Write("Math");
                         break;
+
+                    case "n":
+                        if(availableCategory[5] != "---")
+                        {
+                            Console.WriteLine("You have selected nature questions");
+                            natureQuestion(firstname, availableCategory, points, life);
+                            break;
+                        }
+                        else{
+                            // this lines means that the user have already done nature questions
+                            ChoseCategory(firstname, availableCategory, points, life);
+                            break;
+                        }
 
                     case "q":
                         GameOver(firstname, availableCategory, points, life);
