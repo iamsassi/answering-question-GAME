@@ -126,10 +126,10 @@ namespace Answer_Question_GAME
             availableCategory[0] = "---";
             ChoseCategory(firstname, availableCategory, points, life);
 
-        } // slut på methoden technologyQuestion
+        } // End of the method technologyQuestion
 
 
-        // början på metoden ChoseCategory
+        // Start of method ChoseCategory
         static void ChoseCategory(string firstname, string[] availableCategory, int points, int life)
         {
             Console.Clear();
@@ -186,7 +186,7 @@ namespace Answer_Question_GAME
             } 
             
 
-        } // slutet på metoden ChoseCategory
+        } // End of method ChoseCategory
 
 
         // Method for GameOver where user can terminate the game or play a new game.
