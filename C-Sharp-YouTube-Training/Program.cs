@@ -28,8 +28,8 @@ namespace Answer_Question_GAME
                         break;
 
                     case "n":
-                        Console.WriteLine("the game will be terminated");
                         startOver = false;
+                        EndGame();
                         break;
 
                     default:
@@ -133,49 +133,58 @@ namespace Answer_Question_GAME
         static void ChoseCategory(string firstname, string[] availableCategory, int points, int life)
         {
             Console.Clear();
-            Console.WriteLine(string.Format("{0}, you have {1} points and {2} lives left", firstname, points, life));
-            Console.WriteLine("");
-            Console.WriteLine("Please select your category");
-            Console.WriteLine("Type in the letter for example N for Nature");
-            for (int i = 0; i < availableCategory.Length; i++)
+            if(points != 0)
             {
-                Console.WriteLine(availableCategory[i]);
+                Console.WriteLine(string.Format("{0}, you have {1} points and {2} lives left", firstname, points, life));
+                Console.WriteLine("");
+                Console.WriteLine("Please select your category");
+                Console.WriteLine("Type in the letter for example N for Nature");
+                for (int i = 0; i < availableCategory.Length; i++)
+                {
+                    Console.WriteLine(availableCategory[i]);
+                }
+
+                Console.Write("> ");
+                string category = Console.ReadLine();
+
+                // the switch statement below is for selection of the question categories
+
+                switch (category.ToLower())
+                {
+                    case "t":
+                        if (availableCategory[0] != "---")
+                        {
+                            Console.WriteLine("You have selected technology questions");
+                            technologyQuestion(firstname, availableCategory, points, life);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("You have already finished technology, please select a new category");
+                            ChoseCategory(firstname, availableCategory, points, life);
+                            break;
+                        }
+
+                    case "m":
+                        Console.Write("Math");
+                        break;
+
+                    case "q":
+                        GameOver(firstname, availableCategory, points, life);
+                        break;
+
+
+                    default:
+                        Console.WriteLine("You did not pick a category");
+                        break;
+                }
             }
-
-            Console.Write("> ");
-            string category = Console.ReadLine();
-
-            // the switch statement below is for selection of the question categories
-
-            switch (category.ToLower())
+            else
             {
-                case "t":
-                    if (availableCategory[0] != "---")
-                    {
-                        Console.WriteLine("You have selected technology questions");
-                        technologyQuestion(firstname, availableCategory, points, life);
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("You have already finished technology, please select a new category");
-                        ChoseCategory(firstname, availableCategory, points, life);
-                        break;
-                    }
-
-                case "m":
-                    Console.Write("Math");
-                    break;
-
-                case "q":
-                    GameOver(firstname, availableCategory, points, life);
-                    break;
-
-
-                default:
-                    Console.WriteLine("You did not pick a category");
-                    break;
-            }
+                // if the user have 0 lives left, the user will be sent to the GameOver method
+                GameOver(firstname, availableCategory, points, life);
+            } 
+            
 
         } // slutet på metoden ChoseCategory
 
@@ -205,6 +214,13 @@ namespace Answer_Question_GAME
                     Console.WriteLine("Pleas type Y if you want to play again or N if you want to end the game");
                     break;
             }
+        } // End of GameOver Method
+
+
+        // Start of EndGame method - the user is sent here from StartGame method if the user select N 
+        static void EndGame()
+        {
+            Environment.Exit(0);
         }
     }
 }
