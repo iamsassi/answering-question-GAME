@@ -11,7 +11,7 @@ namespace Answer_Question_GAME
         {
 
             bool startOver = true;
-            Console.WriteLine("Welcome to the guessing game ");
+            Console.WriteLine("Welcome to this game where you are to answer questions and collect as many points as possible");
 
 
             while (startOver == true)
